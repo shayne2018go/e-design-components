@@ -1,0 +1,22 @@
+{
+  "name": "@e-design/components",
+  "version": "0.0.1",
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/src/index.d.ts",
+  "repository": {
+    "url": ""
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "peerDependencies": {},
+  "dependencies": {},
+  "msw": {
+    "workerDirectory": "public"
+  }
+}
