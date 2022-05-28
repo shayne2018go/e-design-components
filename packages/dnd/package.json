@@ -1,0 +1,28 @@
+{
+  "name": "@e-design/dnd",
+  "version": "1.0.1",
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/types/index.d.ts",
+  "repository": {
+    "url": "https://github.com/shayne2018go/e-design-dnd"
+  },
+  "scripts": {
+    "build": "vite build",
+    "storybook": "start-storybook -p 7007"
+  },
+  "dependencies": {
+    "rxjs": "^7.5.5",
+    "sortablejs": "^1.15.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
+  },
+  "devDependencies": {
+    "@types/sortablejs": "^1.10.7"
+  }
+}
