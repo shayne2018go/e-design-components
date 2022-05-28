@@ -1,18 +1,12 @@
-import { defineComponent } from "vue";
-import { SizeProp } from "../config-provider";
-import PropTypes, { tuple } from "../_util/vue-types";
+import { computed, defineComponent } from "vue"
+import { SizeProp } from "../config-provider"
+import PropTypes, { tuple } from "../_util/vue-types"
 
-const buttonVariants = tuple("base", "outline", "dashed", "text");
-const buttonThemes = tuple(
-  "default",
-  "primary",
-  "danger",
-  "warning",
-  "success"
-);
+const buttonVariants = tuple("base", "outline", "dashed", "text")
+const buttonThemes = tuple("default", "primary", "danger", "warning", "success")
 
-const buttonShapes = tuple("square", "round", "circle");
-const ButtonHTMLTypes = tuple("submit", "button", "reset");
+const buttonShapes = tuple("square", "round", "circle")
+const ButtonHTMLTypes = tuple("submit", "button", "reset")
 
 const buttonProps = {
   variant: PropTypes.oneOf(buttonVariants).def("base"),
@@ -23,13 +17,26 @@ const buttonProps = {
   htmlType: PropTypes.oneOf(ButtonHTMLTypes).def("button"),
   loading: PropTypes.bool.def(false),
   block: PropTypes.bool.def(false),
-};
+  label: PropTypes.string,
+}
 
 export default defineComponent({
   name: "EButton",
   props: buttonProps,
-  setup() {},
-  render() {
-    return <div class="button"></div>;
+  setup(props) {
+    const btnClasses = computed(() => {
+      return {
+        [`e-btn`]: true,
+        [`e-btn-${props.variant}`]: !!props.variant,
+      }
+    })
+    return { btnClasses }
   },
-});
+  render() {
+    return (
+      <div class={this.btnClasses}>
+        {this.$slots.default?.() || this.$props.label}
+      </div>
+    )
+  },
+})

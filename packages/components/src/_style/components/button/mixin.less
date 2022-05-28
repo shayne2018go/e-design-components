@@ -1,0 +1,26 @@
+@import url("./var.less");
+@import url("../../mixins/common.less");
+.btn-variant (@color; @background; @border) {
+  .btn-color(@color; @background; @border);
+}
+
+.btn-size (@size) {
+  padding: @size;
+}
+.btn-color(@color; @background; @border) {
+  color: @color;
+  background-color: @background;
+  border-color: @border;
+}
+.btn () {
+  .flex();
+  outline: 0px;
+  border: 0px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+}

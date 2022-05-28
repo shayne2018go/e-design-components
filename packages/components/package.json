@@ -1,21 +1,24 @@
 {
   "name": "@e-design/components",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "files": [
     "dist",
     "package.json"
   ],
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
-  "types": "./dist/src/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "repository": {
-    "url": ""
+    "url": "https://github.com/shayne2018go/e-design-components"
   },
   "scripts": {
-    "build": "vite build"
+    "build": "vite build",
+    "storybook": "start-storybook -p 7007",
+    "test": "vitest"
   },
-  "peerDependencies": {},
-  "dependencies": {},
+  "dependencies": {
+    "@floating-ui/dom": "^0.5.1"
+  },
   "msw": {
     "workerDirectory": "public"
   }

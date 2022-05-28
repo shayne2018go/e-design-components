@@ -1,0 +1,8 @@
+@import url("../../_style/animate.less");
+
+@tooltip-flow: e-tooltip--animation;
+@tooltip-flow-duration: @anim-duration-base;
+@tooltip-flow-fn: @anim-time-fn-ease-in;
+@tooltip-flow-transition-enter: opacity @tooltip-flow-duration linear;
+@tooltip-flow-transition-leave: opacity @tooltip-flow-duration
+  @anim-time-fn-ease-out;

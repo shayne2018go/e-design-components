@@ -1,0 +1,22 @@
+@import url("./mixin.less");
+@prefixCls: ~"e-btn";
+
+.@{prefixCls} {
+  display: inline-block;
+  .btn();
+  .btn-size(@btn-padding-md);
+  &-sm {
+    .btn-size(@btn-padding-sm);
+  }
+  &-base {
+    .btn-size(@btn-padding-md);
+  }
+  &-text {
+    .btn-variant(@blue-4, transparent, transparent);
+    &:hover,
+    &:active,
+    &:focus {
+      color: @blue-3;
+    }
+  }
+}

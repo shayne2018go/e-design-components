@@ -1,4 +1,6 @@
-import "./index.less";
-import Button from "./button/Button";
+import "./index.less"
+import Button from "@/button"
+import Select from "@/select"
+import Tooltip from "@/tooltip"
 
-export default { Button };
+export { Button, Select, Tooltip }

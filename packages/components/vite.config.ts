@@ -1,11 +1,16 @@
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
-import path from "path";
-import dts from "vite-plugin-dts";
-import vueJsx from "@vitejs/plugin-vue-jsx";
+import { defineConfig } from "vitest/config"
+import vue from "@vitejs/plugin-vue"
+import path, { resolve } from "path"
+import dts from "vite-plugin-dts"
+import vueJsx from "@vitejs/plugin-vue-jsx"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@/*": resolve(__dirname, "src/*"),
+    },
+  },
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
@@ -22,5 +27,18 @@ export default defineConfig({
     },
   },
   esbuild: { pure: ["console.log"], minify: true },
-  plugins: [vueJsx(), vue(), dts()],
-});
+  plugins: [
+    vueJsx(),
+    vue(),
+    dts({
+      outputDir: "./dist/types",
+    }),
+  ],
+  test: {
+    globals: true,
+    environment: "jsdom",
+    transformMode: {
+      web: [/.[tj]sx$/],
+    },
+  },
+})
