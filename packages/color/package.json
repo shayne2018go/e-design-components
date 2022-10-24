@@ -1,5 +1,5 @@
 {
-  "name": "@e-design/components",
+  "name": "@e-design/color",
   "version": "1.0.1",
   "files": [
     "dist",
@@ -9,16 +9,11 @@
   "module": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
   "repository": {
-    "url": "https://github.com/shayne2018go/e-design-components"
   },
   "scripts": {
-    "build": "vite build",
-    "storybook": "start-storybook -p 7007",
-    "test": "vitest"
+    "build": "vite build"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.0.1",
-    "@floating-ui/dom": "^0.5.1"
   },
   "msw": {
     "workerDirectory": "public"

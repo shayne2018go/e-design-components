@@ -1,0 +1,58 @@
+@prefixCls: ~"e-checkbox";
+
+.@{prefixCls} {
+  &-input {
+    &__original {
+      opacity: 0;
+      outline: none;
+      position: absolute;
+      margin: 0;
+      width: 0;
+      height: 0;
+      z-index: -1;
+    }
+    &__inner {
+      position: relative;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 1px solid #eee;
+      border-radius: 2px;
+      vertical-align: middle;
+      &::before {
+        box-sizing: content-box;
+        content: "";
+        border: 1px solid #fff;
+        border-left: 0;
+        border-top: 0;
+        height: 8px;
+        left: 5px;
+        position: absolute;
+        top: 1px;
+        transform: rotate(45deg) scaleY(0);
+        width: 3px;
+        transition: transform 0.15s ease-in 0.05s;
+        transform-origin: center;
+      }
+    }
+  }
+  &-label {
+    font-size: 12px;
+    padding-left: 4px;
+  }
+  &.is-checked {
+    .checked(true);
+  }
+}
+
+.checked (@isChecked) when(@isChecked = true) {
+  .@{prefixCls}-input {
+    &__inner {
+      background-color: #409eff;
+      border-color: #409eff;
+      &::before {
+        transform: rotate(45deg) scaleY(1);
+      }
+    }
+  }
+}

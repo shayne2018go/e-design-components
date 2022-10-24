@@ -31,6 +31,11 @@ module.exports = {
     const _config = Object.assign(config, {
       css: {
         postcss: "../postcss.config.js",
+        preprocessorOptions: {
+          less: {
+            javascriptEnabled: true,
+          },
+        },
       },
 
       plugins: [...config.plugins, vue(), vueJsx()],

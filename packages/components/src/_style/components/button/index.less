@@ -2,21 +2,49 @@
 @prefixCls: ~"e-btn";
 
 .@{prefixCls} {
-  display: inline-block;
   .btn();
   .btn-size(@btn-padding-md);
+
   &-sm {
     .btn-size(@btn-padding-sm);
   }
   &-base {
     .btn-size(@btn-padding-md);
-  }
-  &-text {
-    .btn-variant(@blue-4, transparent, transparent);
+    .btn-variant(#fff, @blue-6, @blue-6);
     &:hover,
     &:active,
     &:focus {
-      color: @blue-3;
+      .btn-variant(#fff, @blue-5, @blue-5);
+    }
+  }
+  &-outline {
+    .btn-size(@btn-padding-md);
+    .btn-variant(@blue-6, transparent, @blue-6);
+    border-width: 1px;
+    border-style: solid;
+    &:hover,
+    &:active,
+    &:focus {
+      .btn-variant(@blue-5, transparent, @blue-5);
+    }
+  }
+  &-dashed {
+    .btn-size(@btn-padding-md);
+    .btn-variant(@blue-6, transparent, @blue-6);
+    border-width: 1px;
+    border-style: dashed;
+    &:hover,
+    &:active,
+    &:focus {
+      .btn-variant(@blue-5, transparent, @blue-5);
+    }
+  }
+  &-text {
+    .btn-variant(@blue-6, transparent, transparent);
+    &:hover,
+    &:active,
+    &:focus {
+      .btn-variant(@blue-5, transparent, transparent);
     }
   }
 }

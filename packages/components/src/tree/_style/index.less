@@ -1,0 +1,36 @@
+@prefixCls: ~"e-tree";
+
+.@{prefixCls} {
+  padding: 4px;
+  &-node {
+    &__content {
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      &:hover {
+        background-color: #f5f7fa;
+      }
+    }
+    &__expand {
+      transition: transform 0.2s ease-in-out;
+      box-sizing: content-box;
+      transform: rotate(0);
+      padding: 6px;
+      &.expanded {
+        transform: rotate(90deg);
+      }
+      &.is-leaf {
+        color: transparent;
+      }
+    }
+    &__checkbox {
+      padding: 0px 6px;
+    }
+  }
+}
+
+.collapse-transition-leave-active,
+.collapse-transition-enter-active {
+  transition: 0.3s max-height ease-in-out, 0.3s padding-top ease-in-out,
+    0.3s padding-bottom ease-in-out;
+}

@@ -2,6 +2,7 @@
 @import url("../../mixins/common.less");
 .btn-variant (@color; @background; @border) {
   .btn-color(@color; @background; @border);
+  border-radius: 4px;
 }
 
 .btn-size (@size) {
@@ -14,6 +15,7 @@
 }
 .btn () {
   .flex();
+  display: inline-flex;
   outline: 0px;
   border: 0px;
   cursor: pointer;

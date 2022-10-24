@@ -20,7 +20,7 @@ export default {
 
 export const Variants = (args) => ({
   components: { Button },
-  template: `<Button background="#ff0" :label="btn.text" :variant="btn.variant" v-for="btn in args" />`,
+  template: `<div class="grid gap-2 grid-cols-4"><div v-for="btn in args"><Button background="#ff0" :label="btn.text" :variant="btn.variant"  /></div></div>`,
   setup() {
     console.log(args)
     return { args }

@@ -13,11 +13,19 @@ import {
   Transition,
   watch,
 } from "vue"
-import { createPopper, Instance, Placement } from "@popperjs/core"
+// import { createPopper, Instance, Placement } from "@popperjs/core"
 import { isFunction } from "@/_util/tools/validators"
 import { renderNode, renderSlot } from "@/_util/render-node"
 import { triggerProps } from "./trigger-props"
 import addEventListen from "@/_util/addEventListen"
+import {
+  computePosition,
+  flip,
+  inline,
+  offset,
+  Placement,
+  shift,
+} from "@floating-ui/dom"
 
 export default defineComponent({
   name: "VcTrigger",
@@ -33,7 +41,7 @@ export default defineComponent({
     const visible = ref(false)
     const triggerRef = ref<HTMLElement>()
     const popupRef = ref<HTMLElement>()
-    const popperInstance = ref<Instance>()
+    const popperInstance = ref()
     const popupContainer = computed(() => {
       return props.getPopupContainer && isFunction(props.getPopupContainer)
         ? props.getPopupContainer()
@@ -111,40 +119,39 @@ export default defineComponent({
 
     const onTriggerMouseleave = () => {}
 
-    const onPopupMouseetner = (e: MouseEvent) => {
-      console.log(e.target)
-    }
+    const onPopupMouseetner = (e: MouseEvent) => {}
 
     const createPopuper = () => {
       const placement = placementMap[props.placement] as Placement
       const triggerElm = triggerRef.value as HTMLElement
       const popuperElm = popupRef.value as HTMLElement
+      if (!triggerElm || !popuperElm) {
+        return false
+      }
+
       const container = props.getPopupContainer
         ? props.getPopupContainer(triggerRef.value)
         : document.body
-      container.appendChild(popuperElm)
 
-      if (popperInstance.value && popperInstance.value.destroy) {
-        popperInstance.value.destroy()
+      if (!container.contains(popuperElm)) {
+        container.appendChild(popuperElm)
       }
 
-      popperInstance.value = createPopper(triggerElm, popuperElm, {
+      computePosition(triggerElm, popuperElm, {
         placement,
-        onFirstUpdate: () => {
-          nextTick(() => {
-            updatePopuper()
-          })
-        },
+        middleware: [offset(), flip(), shift(), inline()],
+      }).then(({ x, y }) => {
+        Object.assign(popuperElm.style, {
+          left: `${x}px`,
+          top: `${y}px`,
+        })
       })
     }
 
     const updatePopuper = () => {
-      if (popperInstance.value) {
-        popperInstance.value.forceUpdate()
-      } else {
-        createPopuper()
-      }
+      createPopuper()
     }
+
     watch(
       () => props.visible,
       (nv, ov) => {
@@ -209,12 +216,18 @@ export default defineComponent({
         onMouseenter: onPopupMouseetner,
       }
 
+      const attrStyle = (attrs.style || {}) as Record<string, any>
+
       return {
         class: {
           ["e-popup"]: true,
           [`${props.prefixCls}`]: !!props.prefixCls,
         },
         ...events,
+        style: {
+          position: "absolute",
+          ...attrStyle,
+        } as StyleValue,
       }
     }
 
@@ -247,6 +260,7 @@ export default defineComponent({
         [`${prefixCls}-inner`]: !!prefixCls,
       },
     }
+    console.log(this.visible)
 
     return (
       <>
