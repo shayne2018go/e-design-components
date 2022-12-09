@@ -1,0 +1,21 @@
+{
+  "name": "@e-design/tools",
+  "version": "1.0.1",
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/types/index.d.ts",
+  "repository": {
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+  },
+  "msw": {
+    "workerDirectory": "public"
+  }
+}

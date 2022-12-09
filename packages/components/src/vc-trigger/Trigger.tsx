@@ -48,19 +48,45 @@ export default defineComponent({
         : "body"
     })
 
-    const visibleChange = (visible: boolean) => {
+    const visibleChange = (visibleValue: boolean) => {
+      if (visible.value === visibleValue) {
+        return
+      }
+      visible.value = visibleValue
       props.visibleChange && props.visibleChange(visible)
     }
 
     const open = () => {
-      visible.value = true
-      visibleChange(visible.value)
+      visibleChange(true)
     }
 
     const close = () => {
-      visible.value = false
-      visibleChange(visible.value)
+      visibleChange(false)
     }
+
+    watch(
+      () => props.visible,
+      (nv, ov) => {
+        visibleChange(nv)
+      },
+      {
+        immediate: true,
+      }
+    )
+
+    watch(
+      () => visible.value,
+      (nv, ov) => {
+        if (nv) {
+          nextTick(() => {
+            updatePopuper()
+          })
+        }
+      },
+      {
+        immediate: true,
+      }
+    )
 
     const onTriggerClick = () => {
       if (visible.value) {
@@ -72,6 +98,13 @@ export default defineComponent({
       }
     }
 
+    /**
+     *
+     * @param triggerDom  触发dom
+     * @param popupDom 弹窗dom
+     * @param target 当前点击dom
+     * @returns {boolean}
+     */
     const handleInSide = (
       triggerDom: HTMLElement,
       popupDom: HTMLElement,
@@ -140,41 +173,19 @@ export default defineComponent({
       computePosition(triggerElm, popuperElm, {
         placement,
         middleware: [offset(), flip(), shift(), inline()],
-      }).then(({ x, y }) => {
+      }).then(({ x, y, placement }) => {
         Object.assign(popuperElm.style, {
           left: `${x}px`,
           top: `${y}px`,
         })
+
+        console.log(placement)
       })
     }
 
     const updatePopuper = () => {
       createPopuper()
     }
-
-    watch(
-      () => props.visible,
-      (nv, ov) => {
-        visible.value = nv
-      },
-      {
-        immediate: true,
-      }
-    )
-
-    watch(
-      () => visible.value,
-      (nv, ov) => {
-        if (nv) {
-          nextTick(() => {
-            updatePopuper()
-          })
-        }
-      },
-      {
-        immediate: true,
-      }
-    )
 
     const isClickShow = () => {
       return props.trigger.includes("click")
@@ -260,7 +271,6 @@ export default defineComponent({
         [`${prefixCls}-inner`]: !!prefixCls,
       },
     }
-    console.log(this.visible)
 
     return (
       <>

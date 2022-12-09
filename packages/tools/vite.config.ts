@@ -1,34 +1,18 @@
-import { defineConfig } from "vite"
-import vue from "@vitejs/plugin-vue"
 import path, { resolve } from "path"
+import { defineConfig } from "vite"
 import dts from "vite-plugin-dts"
-import vueJsx from "@vitejs/plugin-vue-jsx"
 
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
-    alias: [
-      {
-        find: "@",
-        replacement: path.resolve(__dirname, "src"),
-      },
-    ],
-    // {
-    //    "@/*": resolve(__dirname, "src/*"),
-
-    // },
-  },
-  css: {
-    preprocessorOptions: {
-      less: {
-        javascriptEnabled: true,
-      },
+    alias: {
+      "@/*": resolve(__dirname, "src/*"),
     },
   },
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "Components",
+      name: "Tools",
       fileName: "index",
     },
     rollupOptions: {
@@ -39,11 +23,10 @@ export default defineConfig({
         globals: {},
       },
     },
+    sourcemap: true,
   },
   esbuild: { pure: ["console.log"], minify: true },
   plugins: [
-    vueJsx(),
-    vue(),
     dts({
       outputDir: "./dist/types",
     }),

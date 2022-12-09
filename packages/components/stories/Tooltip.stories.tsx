@@ -1,3 +1,4 @@
+import React from "react"
 import Tooltip from "../src/tooltip"
 
 export default {
@@ -13,7 +14,6 @@ export default {
 const Template = (args) => ({
   components: { Tooltip },
   setup() {
-    console.log(args)
     return { args }
   },
   template: `<tooltip v-bind="args"></tooltip>`,
@@ -24,8 +24,7 @@ export const Primary = Template.bind({})
 Primary.args = {
   popup: <div>popuppppp</div>,
   trigger: "click",
-  style: {
-  },
+  style: {},
 }
 
 export const TriggerHover = Template.bind({})
