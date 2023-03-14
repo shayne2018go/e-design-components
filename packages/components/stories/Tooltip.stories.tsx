@@ -46,4 +46,5 @@ PlacementTop.args = {
     marginLeft: "100px",
     marginTop: "100px",
   },
+  destroyOnClose: false,
 }

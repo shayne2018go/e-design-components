@@ -1,7 +1,9 @@
 {
   "name": "@e-design/create-vite",
   "version": "1.0.1",
-  "bin": "index.js",
+  "bin": {
+    "create-e-vite": "index.js"
+  },
   "files": [
     "index.js",
     "template-*"

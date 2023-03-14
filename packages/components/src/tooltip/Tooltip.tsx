@@ -10,10 +10,7 @@ export default defineComponent({
   components: { VcTrigger },
   props: tooltipProps,
   setup(props, { attrs }) {
-    const { configProvider, prefixCls } = useProvideInjectConfig(
-      "tooltip",
-      props
-    )
+    const { configProvider, prefixCls } = useProvideInjectConfig("tooltip", props)
 
     const triggerProps = computed(() => {
       return {

@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite"
 import vue from "@vitejs/plugin-vue"
 import path, { resolve } from "path"
@@ -48,4 +49,11 @@ export default defineConfig({
       outputDir: "./dist/types",
     }),
   ],
+  test: {
+    globals: true,
+    environment: "jsdom",
+    transformMode: {
+      web: [/.[tj]sx$/],
+    },
+  },
 })

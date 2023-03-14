@@ -8,7 +8,6 @@ const { reset, red } = require("kolorist")
 const fs = require("fs")
 
 const start = async () => {
-  // console.log(argv)
   let targetDir = argv._[0]
   let template = argv.template || argv.t
 
@@ -50,8 +49,8 @@ const start = async () => {
         message:
           typeof template === "string"
             ? reset(
-                `"${template}" isn't a valid template. Please choose from below: `
-              )
+              `"${template}" isn't a valid template. Please choose from below: `
+            )
             : reset("Select a framework:"),
         initial: 0,
         choices: [],

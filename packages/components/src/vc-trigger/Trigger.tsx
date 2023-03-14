@@ -1,31 +1,12 @@
 import { placementMap, placements } from "@/_util/common"
 import PropTypes from "@/_util/vue-types"
-import {
-  cloneVNode,
-  computed,
-  defineComponent,
-  nextTick,
-  Ref,
-  ref,
-  StyleValue,
-  Teleport,
-  Text,
-  Transition,
-  watch,
-} from "vue"
+import { cloneVNode, computed, defineComponent, nextTick, Ref, ref, StyleValue, Teleport, Text, Transition, watch } from "vue"
 // import { createPopper, Instance, Placement } from "@popperjs/core"
 import { isFunction } from "@/_util/tools/validators"
 import { renderNode, renderSlot } from "@/_util/render-node"
 import { triggerProps } from "./trigger-props"
 import addEventListen from "@/_util/addEventListen"
-import {
-  computePosition,
-  flip,
-  inline,
-  offset,
-  Placement,
-  shift,
-} from "@floating-ui/dom"
+import { arrow, computePosition, flip, inline, offset, Placement, shift } from "@floating-ui/dom"
 
 export default defineComponent({
   name: "VcTrigger",
@@ -39,13 +20,13 @@ export default defineComponent({
   },
   setup(props, { emit, slots, attrs }) {
     const visible = ref(false)
+
     const triggerRef = ref<HTMLElement>()
     const popupRef = ref<HTMLElement>()
-    const popperInstance = ref()
+    const popupArrowRef = ref<HTMLElement>()
+
     const popupContainer = computed(() => {
-      return props.getPopupContainer && isFunction(props.getPopupContainer)
-        ? props.getPopupContainer()
-        : "body"
+      return props.getPopupContainer && isFunction(props.getPopupContainer) ? props.getPopupContainer() : "body"
     })
 
     const visibleChange = (visibleValue: boolean) => {
@@ -105,11 +86,7 @@ export default defineComponent({
      * @param target 当前点击dom
      * @returns {boolean}
      */
-    const handleInSide = (
-      triggerDom: HTMLElement,
-      popupDom: HTMLElement,
-      target: HTMLElement
-    ) => {
+    const handleInSide = (triggerDom: HTMLElement, popupDom: HTMLElement, target: HTMLElement) => {
       return !triggerDom.contains(target) && !popupDom.contains(target)
     }
 
@@ -154,6 +131,8 @@ export default defineComponent({
 
     const onPopupMouseetner = (e: MouseEvent) => {}
 
+    const finalyPlacement = ref("")
+
     const createPopuper = () => {
       const placement = placementMap[props.placement] as Placement
       const triggerElm = triggerRef.value as HTMLElement
@@ -162,9 +141,7 @@ export default defineComponent({
         return false
       }
 
-      const container = props.getPopupContainer
-        ? props.getPopupContainer(triggerRef.value)
-        : document.body
+      const container = props.getPopupContainer ? props.getPopupContainer(triggerRef.value) : document.body
 
       if (!container.contains(popuperElm)) {
         container.appendChild(popuperElm)
@@ -172,14 +149,13 @@ export default defineComponent({
 
       computePosition(triggerElm, popuperElm, {
         placement,
-        middleware: [offset(), flip(), shift(), inline()],
+        middleware: [offset(), flip(), shift(), inline(), arrow({ element: popupArrowRef.value! })],
       }).then(({ x, y, placement }) => {
         Object.assign(popuperElm.style, {
           left: `${x}px`,
           top: `${y}px`,
         })
-
-        console.log(placement)
+        finalyPlacement.value = placement
       })
     }
 
@@ -227,39 +203,34 @@ export default defineComponent({
         onMouseenter: onPopupMouseetner,
       }
 
-      const attrStyle = (attrs.style || {}) as Record<string, any>
-
       return {
         class: {
           ["e-popup"]: true,
+          [`e-popup__placement-${finalyPlacement.value}`]: !!finalyPlacement.value,
           [`${props.prefixCls}`]: !!props.prefixCls,
         },
         ...events,
         style: {
           position: "absolute",
-          ...attrStyle,
         } as StyleValue,
       }
     }
 
     const destroyPopup = () => {
-      if (popperInstance.value) {
-        popperInstance.value.destroy()
-        popperInstance.value = undefined
-      }
       if (props.destroyOnClose) {
         const popperElm = popupRef.value as HTMLElement
         popperElm.parentNode?.removeChild(popperElm)
       }
     }
     return {
+      visible,
       triggerRef,
       triggerRender,
       popupRef,
-      visible,
       popupContainer,
       popupProps,
       destroyPopup,
+      popupArrowRef,
     }
   },
   render() {
@@ -276,19 +247,13 @@ export default defineComponent({
       <>
         {this.triggerRender()}
         <Teleport to={this.popupContainer}>
-          <Transition
-            name={`${prefixCls}--animation`}
-            onAfterLeave={this.destroyPopup}
-          >
-            <div
-              v-show={this.visible && !!this.$slots.popup}
-              ref="popupRef"
-              {...popupProps}
-            >
+          <Transition name={`${prefixCls}--animation`} onAfterLeave={this.destroyPopup}>
+            <div v-show={this.visible && !!this.$slots.popup} ref="popupRef" {...popupProps}>
               <div {...popupInnerProps}>
                 {this.$slots.popup?.()}
                 {!hideArrow && (
                   <span
+                    ref="popupArrowRef"
                     class={{
                       [`${prefixCls}-arrow`]: true,
                       "e-popup-arrow": true,
